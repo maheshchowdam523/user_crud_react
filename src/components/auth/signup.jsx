@@ -170,6 +170,7 @@ const SignUp = () => {
                 id="faceImage"
                 type="file"
                 onChange={handleCapture}
+                required
               />
               <Tooltip title="Select Image">
                 <label htmlFor="faceImage">
