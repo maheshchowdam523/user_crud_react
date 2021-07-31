@@ -6,6 +6,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  Tooltip,
   withStyles
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -120,13 +121,24 @@ const UsersComponent = () => {
                       </Button>
                     </StyledTableCell>
                     <StyledTableCell>
-                      <Button
-                        color={"secondary"}
-                        variant="contained"
-                        onClick={() => handleDeleteUser(user._id)}
+                      <Tooltip
+                        title={
+                          user._id !== loggedInUser._id
+                            ? ""
+                            : "Cannot delete your profile"
+                        }
                       >
-                        Delete
-                      </Button>
+                        <span>
+                          <Button
+                            color={"secondary"}
+                            variant="contained"
+                            onClick={() => handleDeleteUser(user._id)}
+                            disabled={user._id === loggedInUser._id}
+                          >
+                            Delete
+                          </Button>
+                        </span>
+                      </Tooltip>
                     </StyledTableCell>
                   </StyledTableRow>
                 </>

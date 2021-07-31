@@ -17,6 +17,7 @@ import { Navbar } from "../common/navbar";
 import Avatar from "@material-ui/core/Avatar";
 import Notification from "../common/notification";
 import PasswordModal from "./passwordModal";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -46,9 +47,11 @@ const useStyles = makeStyles(theme => ({
 
 const UserDetails = ({ match }) => {
   const classes = useStyles();
+  const history = useHistory();
   const [user, updateUser] = useState();
   const [message, updateMessage] = useState("");
   const [open, setOpen] = useState(false);
+  const loggedInUser = history?.location?.state?.user;
 
   const handleChange = (field, value) => {
     let tempUser = { ...user };
@@ -156,14 +159,21 @@ const UserDetails = ({ match }) => {
               />
             </Grid>
             <Grid item xs={12}>
-              <Button
-                color={"secondary"}
-                type={"button"}
-                variant={"contained"}
-                onClick={() => setOpen(true)}
+              <Tooltip
+                title={"Logged in user cannot change other people's password"}
               >
-                Change Password
-              </Button>
+                <span>
+                  <Button
+                    color={"secondary"}
+                    type={"button"}
+                    variant={"contained"}
+                    onClick={() => setOpen(true)}
+                    disabled={user?._id !== loggedInUser?._id}
+                  >
+                    Change Password
+                  </Button>
+                </span>
+              </Tooltip>
             </Grid>
             <Grid item xs={12}>
               <input
