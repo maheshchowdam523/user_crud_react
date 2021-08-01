@@ -25,7 +25,7 @@ const PasswordModal = ({
   };
 
   const handleConfirm = async () => {
-    let errorString = "";
+    let errorString;
     if (currentPassword === newPassword) {
       errorString = "Existing password cannot be used as new password";
       setMessage(errorString);
@@ -35,8 +35,11 @@ const PasswordModal = ({
     } else if (newPassword !== confirmPassword) {
       errorString = "Password should match while updating";
       setMessage(errorString);
+    } else {
+      errorString = "";
+      setMessage(errorString);
     }
-    if (errorString.length === 0) {
+    if (errorString?.length === 0) {
       setOpen(false);
       const res = await UserAPIHandler.updatePassword(id, { newPassword });
       if (res.status === 200) {
